@@ -24,7 +24,9 @@
 | `500` | Server error                                                   |
 | `503` | Service not available                                          |  
 
-More info: [RFC2616](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html)
+** More info: **
+* [HTTP/1.1 Protocol - RFC2616](http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html#sec9)
+* [HTTP/1.1 Semantics and Content - RFC7231](https://tools.ietf.org/html/rfc7231#section-6)
 
 ## Request examples
 
