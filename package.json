@@ -28,6 +28,7 @@
     "gulp-mocha": "^2.0.0",
     "jshint-stylish": "^1.0.0",
     "supertest": "^0.15.0",
-    "supertest-as-promised": "^1.0.0"
+    "supertest-as-promised": "^1.0.0",
+    "winston": "^0.8.3"
   }
 }
