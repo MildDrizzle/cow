@@ -16,6 +16,9 @@
 | `200` | Success                                                        |
 | `201` | Success - New resource created                                 |
 | `204` | Success - No new data to response                              |
+| `301` | Moved permanently																							 |
+| `304` | Not Modified																									 |
+| `307` | Temporary redirect 																						 |
 | `400` | Bad request - The request can not evaluated                    |
 | `401` | Unauthorized - The user is not authenticated for this resource |
 | `404` | Not Found - The resource has not exists                        |
@@ -24,14 +27,14 @@
 | `500` | Server error                                                   |
 | `503` | Service not available                                          |  
 
-** More info: **
+**More info:**
 * [HTTP/1.1 Protocol - RFC2616](http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html#sec9)
 * [HTTP/1.1 Semantics and Content - RFC7231](https://tools.ietf.org/html/rfc7231#section-6)
 
 ## Request examples
 
 ### To create a new resource
-* ** Request: `POST /resource` **
+* **Request: `POST /resource`**
 ```js
 {
 	"resource": {
@@ -39,7 +42,7 @@
 	}
 }
 ```
-* ** Response: `201` **
+* **Response: `201`**
 ```js
 {
 	"resource": {
@@ -50,7 +53,7 @@
 ```
 
 ### To update an existing resource
-* ** Request: `PUT /resource/:id` **
+* **Request: `PUT /resource/:id`**
 ```js
 {
 	"resource": {
@@ -59,7 +62,7 @@
 	}
 }
 ```
-* ** Response: `204`**
+* **Response: `204`**
 ```js
 {
 	"resource": {
@@ -70,9 +73,9 @@
 ```
 
 ### To get all the resources
-* ** Request: `GET /resource` **
+* **Request: `GET /resource`**
 
-* ** Response: `200`**
+* **Response: `200`**
 ```js
 {
 	[
@@ -90,8 +93,8 @@
 ```
 
 ### To get a specific resource
-* ** Request: `GET /resource/012345678` **
-* ** Response: `200`**
+* **Request: `GET /resource/012345678`**
+* **Response: `200`**
 ```js
 {
 	"resource": {
@@ -102,8 +105,8 @@
 ```
 
 ### To remove a resource
-* ** Request: `DELETE /resource/123456789` **
-* ** Response: `204`**
+* **Request: `DELETE /resource/123456789`**
+* **Response: `204`**
 ```js
 {
 	"message": "resource deleted successfully"
