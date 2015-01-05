@@ -14,10 +14,14 @@ var port        = process.env.PORT || 3000;
 app.use(bodyParser.json('application/json'));
 
 // -- Routes -------------------------------------------------------------------
-var resources = require('./lib/resource');
-app.use(resources);
+var resource = require('./lib/resource');
+app.use(resource);
 
 // -- Start API server ---------------------------------------------------------
-app.listen(port, function(){
-  logger.info('Express App running on http://localhost:%s', port);
-});
+if(!module.parent) {
+  mongoose.connect('mongodb://localhost/cow-dev', function() {
+    app.listen(port, function(){
+      logger.info('Express App running on http://localhost:%s', port);
+    });
+  });
+}

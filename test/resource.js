@@ -10,10 +10,40 @@ var host      = process.env.API_TEST_HOST || api;
 
 request = request(host);
 
-// -- Tests --------------------------------------------------------------------
 describe('Resources collection [/resource]', function() {
+  // -- Helpers ----------------------------------------------------------------
+
+  // Clean database before battery test
+  before(function(done) {
+    mongoose.connect('mongodb://localhost/cow-test', done);
+  });
+
+  // Disconnet from DB test after battery test
+  after(function(done) {
+    mongoose.disconnect(done);
+    mongoose.models = {};
+  });
+
+  // -- Tests ------------------------------------------------------------------
+
   describe('POST', function() {
-    //TODO
+    it('should be create a resource', function(done) {
+      var data = {
+        "title": "A new resource"
+      };
+
+      request
+        .post('/resource')
+        .set('Accept', 'application/json')
+        .send(data)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+        .end(function(err, res) {
+          var body = res.body;
+          expect(body).to.have.property('title', 'A new resource');
+          done(err);
+        });
+    });
   });
 
   describe('GET /:id', function() {
@@ -31,23 +61,5 @@ describe('Resources collection [/resource]', function() {
   describe('DELETE /:id', function() {
     //TODO
   });
+
 });
-
-// -- Private methods ----------------------------------------------------------
-function _createResource() {
-  var id;
-  var data = {
-    'title': 'A new resource'
-  };
-
-  return request
-    .post('/resource')
-    .set('Accept', 'application/json')
-    .send(data)
-    .expect(201)
-    .expect('Content-Type', /application\/json/)
-  .then(function getResource(res) {
-    this.id = res.body._id,
-    this.resource = res.body
-  }.bind(this));
-};
