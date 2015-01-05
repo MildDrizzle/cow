@@ -4,8 +4,8 @@ var request   = require('supertest-as-promised');
 var expect    = require('chai').expect;
 var _         = require('lodash');
 var mongoose  = require('mongoose');
-var Resource  = mongoose.model('Resource');
-var api       = require('../index');
+var Resource  = require('../lib/resource/model');
+var api       = require('../index.js');
 var host      = process.env.API_TEST_HOST || api;
 
 request = request(host);
@@ -16,7 +16,7 @@ describe('Resources collection [/resource]', function() {
     //TODO
   });
 
-  decribe('GET /:id', function() {
+  describe('GET /:id', function() {
     //TODO
   });
 
