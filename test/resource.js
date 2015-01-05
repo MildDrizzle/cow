@@ -29,7 +29,9 @@ describe('Resources collection [/resource]', function() {
   describe('POST', function() {
     it('should be create a resource', function(done) {
       var data = {
-        "title": "A new resource"
+        "resource": {
+          "title": "A new resource"
+        }
       };
 
       request
@@ -39,8 +41,16 @@ describe('Resources collection [/resource]', function() {
         .expect(201)
         .expect('Content-Type', /application\/json/)
         .end(function(err, res) {
+          var resource;
           var body = res.body;
-          expect(body).to.have.property('title', 'A new resource');
+
+          // Resource exists
+          expect(body).to.have.property('resource');
+          resource = body.resource;
+
+          // Properties
+          expect(resource).to.have.property('title', 'A new resource');
+          expect(resource).to.have.property('id');
           done(err);
         });
     });
