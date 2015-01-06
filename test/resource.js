@@ -58,7 +58,7 @@ describe('Resources collection [/resource]', function() {
         .expect(201)
         .expect('Content-Type', /application\/json/)
         .then(function getResource(res) {
-          id = res.body.id;
+          id = res.body._id;
 
           return request
             .get('/resource/' + id)
@@ -70,7 +70,7 @@ describe('Resources collection [/resource]', function() {
         .then(function assertions(res) {
           var body = res.body;
           // Properties
-          expect(body).to.have.property('id', id);
+          expect(body).to.have.property('_id', id);
           expect(body).to.have.property('title', 'A new resource');
           done();
         }, done);
