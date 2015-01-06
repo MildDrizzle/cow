@@ -37,18 +37,15 @@
 * **Request: `POST /resource`**
 ```js
 {
-	"resource": {
-		"title": "A new resource"
-	}
+	"title": "A new resource"
+
 }
 ```
 * **Response: `201`**
 ```js
 {
-	"resource": {
-		"_id": "123456789",
-		"title": "A new resource"
-	}
+	"_id": "123456789",
+	"title": "A new resource"
 }
 ```
 
@@ -56,19 +53,15 @@
 * **Request: `PUT /resource/:id`**
 ```js
 {
-	"resource": {
-		"_id": "123456789",
-		"title": "resource updated"
-	}
+	"_id": "123456789",
+	"title": "resource updated"
 }
 ```
 * **Response: `204`**
 ```js
 {
-	"resource": {
-		"_id": "123456789",
-		"title": "resource updated"
-	}
+	"_id": "123456789",
+	"title": "resource updated"
 }
 ```
 
@@ -77,19 +70,16 @@
 
 * **Response: `200`**
 ```js
-{
-	[
-		"resource": {
-			"_id": "123456789",
-			"title": "resource updated"
-		},
-		"resource": {
-			"_id": "012345678",
-			"title": "Another resource"
-		},
-		...
-	]
-}
+[{
+		"_id": "123456789",
+		"title": "resource updated"
+	},
+	{
+		"_id": "012345678",
+		"title": "Another resource"
+	},
+	...
+]
 ```
 
 ### To get a specific resource
@@ -97,10 +87,8 @@
 * **Response: `200`**
 ```js
 {
-	"resource": {
-		"_id": "012345678",
-		"title": "Another resource"
-	}
+	"_id": "012345678",
+	"title": "Another resource"
 }
 ```
 
