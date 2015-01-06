@@ -13,12 +13,12 @@ request = request(host);
 describe('Resources collection [/resource]', function() {
   // -- Helpers ----------------------------------------------------------------
 
-  // Clean database before battery test
+  // Connect to test-database before battery test
   before(function(done) {
     mongoose.connect('mongodb://localhost/cow-test', done);
   });
 
-  // Disconnet from DB test after battery test
+  // Disconnet and clean DB test after battery test
   after(function(done) {
     mongoose.disconnect(done);
     mongoose.models = {};
@@ -47,7 +47,34 @@ describe('Resources collection [/resource]', function() {
   });
 
   describe('GET /:id', function() {
-    //TODO
+    it('should get an existing resource', function(done) {
+      var id;
+      var data = { "title": "A new resource" };
+
+      request
+        .post('/resource')
+        .set('Accept', 'application/json')
+        .send(data)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+        .then(function getResource(res) {
+          id = res.body.id;
+
+          return request
+            .get('/resource/' + id)
+            .set('Accept', 'application/json')
+            .send()
+            .expect(200)
+            .expect('Content-Type', /application\/json/)
+        }, done)
+        .then(function assertions(res) {
+          var body = res.body;
+          // Properties
+          expect(body).to.have.property('id', id);
+          expect(body).to.have.property('title', 'A new resource');
+          done();
+        }, done);
+    });
   });
 
   describe('GET', function() {
