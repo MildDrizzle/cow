@@ -20,8 +20,10 @@ describe('Resources collection [/resource]', function() {
 
   // Disconnet and clean DB test after battery test
   after(function(done) {
+    mongoose.connection.collections['resources'].drop(function(err) {
+      console.log("Database dropped");
+    });
     mongoose.disconnect(done);
-    mongoose.models = {};
   });
 
   // -- Tests ------------------------------------------------------------------
@@ -42,6 +44,7 @@ describe('Resources collection [/resource]', function() {
         // Properties
         expect(body).to.have.property('title', 'A new resource');
         expect(body).to.have.property('_id');
+
         done(err);
       });
     });
@@ -75,6 +78,7 @@ describe('Resources collection [/resource]', function() {
         // Properties
         expect(body).to.have.property('_id', id);
         expect(body).to.have.property('title', 'A new resource');
+
         done();
       }, done);
     });
@@ -92,9 +96,8 @@ describe('Resources collection [/resource]', function() {
         .send(data1)
         .expect(201)
         .expect('Content-Type', /application\/json/)
-
       .then(function postAnotherResource(res) {
-        id1 = res.body._id
+        id1 = res.body._id;
         return request
           .post('/resource')
           .set('Accept', 'application/json')
@@ -102,30 +105,30 @@ describe('Resources collection [/resource]', function() {
           .expect(201)
           .expect('Content-Type', /application\/json/)
       })
-
       .then(function getResources(res) {
         id2 = res.body._id;
-        return request
-          .get('/resource')
+        return request.get('/resource')
           .set('Accept', 'application/json')
+          //.send()
           .expect(200)
           .expect('Content-Type', /application\/json/)
       }, done)
-
       .then(function assertions(res) {
         var resources = res.body;
 
-        expect(resources).to.be.an('array')
-          .and.to.have.lenght.above(2);
+        expect(resources)
+          .to.be.an('array')
+          .and.to.have.length.above(2);
 
-        var resource1 = _.find(resources, { id: id1 });
-        var resource2 = _.find(resources, { id: id2 });
+        var resource1 = _.find(resources, { _id: id1 });
+        var resource2 = _.find(resources, { _id: id2 });
 
         // Properties
-        expect(resource1).to.have.property('id', id1);
+        expect(resource1).to.have.property('_id', id1);
         expect(resource1).to.have.property('title', 'A new resource');
-        expect(resource2).to.have.property('id', id2);
+        expect(resource2).to.have.property('_id', id2);
         expect(resource2).to.have.property('title', 'Another resource');
+
         done();
       }, done);
     });

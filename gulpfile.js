@@ -19,7 +19,7 @@ gulp.task('test', function() {
         chai    : require('chai'),
         expect  : require('chai').expect
       }
-    }));
+    }).on('error', _handleError));
 });
 
 gulp.task('watch', function() {
@@ -28,3 +28,9 @@ gulp.task('watch', function() {
 
 // -- Functions ----------------------------------------------------------------
 gulp.task('default', ['watch']);
+
+// -- Helpers ------------------------------------------------------------------
+function _handleError(err) {
+  // Don't show Gulp errors
+  this.emit('end');
+}
