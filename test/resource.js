@@ -38,6 +38,7 @@ describe('Resources collection [/resource]', function() {
         .send(data)
         .expect(201)
         .expect('Content-Type', /application\/json/)
+
       .end(function assertions(err, res) {
         var body = res.body;
 
@@ -96,6 +97,7 @@ describe('Resources collection [/resource]', function() {
         .send(data1)
         .expect(201)
         .expect('Content-Type', /application\/json/)
+
       .then(function postAnotherResource(res) {
         id1 = res.body._id;
         return request
@@ -105,14 +107,16 @@ describe('Resources collection [/resource]', function() {
           .expect(201)
           .expect('Content-Type', /application\/json/)
       })
+
       .then(function getResources(res) {
         id2 = res.body._id;
         return request.get('/resource')
           .set('Accept', 'application/json')
-          //.send()
+          .send()
           .expect(200)
           .expect('Content-Type', /application\/json/)
       }, done)
+
       .then(function assertions(res) {
         var resources = res.body;
 
@@ -134,7 +138,7 @@ describe('Resources collection [/resource]', function() {
     });
   });
 
-  describe('PUT /:id', function() {
+  describe('PUT /resource/:id', function() {
     it('should update an existing resource', function(done) {
       var id;
       var data = { "title": "A new resource" };
@@ -144,7 +148,8 @@ describe('Resources collection [/resource]', function() {
         .set('Accept', 'application/json')
         .send(data)
         .expect(201)
-        .expect('Content/Type', /application\/json/)
+        .expect('Content-Type', /application\/json/)
+
       .then(function updateResource(res) {
         var update = { "title": "updated resource" };
         id = res.body._id;
@@ -152,15 +157,17 @@ describe('Resources collection [/resource]', function() {
         return request
           .put('/resource/' + id)
           .set('Accept', 'application/json')
-          .send(data)
+          .send(update)
           .expect(200)
           .expect('Content-Type', /application\/json/)
-      }, done)
+      })
+
       .then(function assertions(res) {
         var resource = res.body;
 
         expect(resource).to.have.property('_id', id);
         expect(resource).to.have.property('title', 'updated resource');
+
         done();
       }, done);
     });
