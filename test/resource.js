@@ -135,7 +135,35 @@ describe('Resources collection [/resource]', function() {
   });
 
   describe('PUT /:id', function() {
-    //TODO
+    it('should update an existing resource', function(done) {
+      var id;
+      var data = { "title": "A new resource" };
+
+      request
+        .post('/resource')
+        .set('Accept', 'application/json')
+        .send(data)
+        .expect(201)
+        .expect('Content/Type', /application\/json/)
+      .then(function updateResource(res) {
+        var update = { "title": "updated resource" };
+        id = res.body._id;
+
+        return request
+          .put('/resource/' + id)
+          .set('Accept', 'application/json')
+          .send(data)
+          .expect(200)
+          .expect('Content-Type', /application\/json/)
+      }, done)
+      .then(function assertions(res) {
+        var resource = res.body;
+
+        expect(resource).to.have.property('_id', id);
+        expect(resource).to.have.property('title', 'updated resource');
+        done();
+      }, done);
+    });
   });
 
   describe('DELETE /:id', function() {
