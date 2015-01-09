@@ -47,7 +47,7 @@ describe('Resources collection [/resource]', function() {
         expect(body).to.have.property('_id');
 
         done(err);
-      });
+      }, done);
     });
   });
 
@@ -106,7 +106,7 @@ describe('Resources collection [/resource]', function() {
           .send(data2)
           .expect(201)
           .expect('Content-Type', /application\/json/)
-      })
+      }, done)
 
       .then(function getResources(res) {
         id2 = res.body._id;
@@ -160,7 +160,7 @@ describe('Resources collection [/resource]', function() {
           .send(update)
           .expect(200)
           .expect('Content-Type', /application\/json/)
-      })
+      }, done)
 
       .then(function assertions(res) {
         var resource = res.body;
@@ -174,7 +174,32 @@ describe('Resources collection [/resource]', function() {
   });
 
   describe('DELETE /:id', function() {
-    //TODO
+    it('should delete an existing resource', function(done) {
+      var id;
+      var data = { "title": "Resource to delete" };
+
+      request
+        .post('/resource')
+        .set('Accept', 'application/json')
+        .send(data)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+
+      .then(function deleteRequest(res) {
+        id = res.body._id;
+
+        return request
+          .delete('/resource/' + id)
+          .set('Accept', 'application/json')
+          .expect(204)
+      }, done)
+
+      .then(function assertions(res) {
+        var body = res.body;
+        expect(body).to.be.empty;
+        done();
+      }, done);
+    });
   });
 
 });
